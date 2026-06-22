@@ -99,7 +99,7 @@ class YukiBili extends Plugin {
     }
     /** 添加B站动态订阅 */
     async addDynamicSub() {
-        if (!this.e.isMaster) {
+        if (!this.e.isMaster && !this.e.isPrivate) {
             this.e.reply('未取得bot主人身份，无权限添加B站动态订阅');
         }
         else {
@@ -118,6 +118,10 @@ class YukiBili extends Plugin {
             let chatType = this.e.isGroup ? 'group' : 'private';
             let chatId = this.e.isGroup ? this.e.group_id : this.e.user_id;
             // 初始化群组或私聊数据
+            // 初始化群组或私聊数据
+            if (!subData[chatType]) {
+                subData[chatType] = {};
+            }
             if (!subData[chatType][chatId]) {
                 subData[chatType][chatId] = [];
             }
@@ -194,7 +198,7 @@ class YukiBili extends Plugin {
     }
     /** 删除B站动态订阅 */
     async delDynamicSub() {
-        if (!this.e.isMaster) {
+        if (!this.e.isMaster && !this.e.isPrivate) {
             this.e.reply('未取得bot主人身份，无权限删除B站动态订阅');
         }
         else {
@@ -213,6 +217,13 @@ class YukiBili extends Plugin {
             let chatType = this.e.isGroup ? 'group' : 'private';
             let chatId = this.e.isGroup ? this.e.group_id : this.e.user_id;
             // 初始化群组或私聊数据
+            if (!subData[chatType]) {
+                subData[chatType] = {};
+            }
+            // 初始化群组或私聊数据
+            if (!subData[chatType]) {
+                subData[chatType] = {};
+            }
             if (!subData[chatType][chatId]) {
                 subData[chatType][chatId] = [];
             }
@@ -513,6 +524,9 @@ class YukiBili extends Plugin {
         // 根据聊天类型初始化数据
         let chatType = this.e.isGroup ? 'group' : 'private';
         let chatId = this.e.isGroup ? this.e.group_id : this.e.user_id;
+        if (!subData[chatType]) {
+            subData[chatType] = {};
+        }
         if (!subData[chatType][chatId]) {
             subData[chatType][chatId] = [];
         }
